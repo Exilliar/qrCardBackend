@@ -2,6 +2,12 @@
 
 Django app for the backend of the qr-cards webapp
 
+## endpoints
+
+`/qrCards/account` - GET - get all account data, including all cards
+`/qrCards/account` - POST - add a new card
+`/qrCards/account` - PATCH - add a card to the account
+
 ## Django stuff
 
 ## Running
