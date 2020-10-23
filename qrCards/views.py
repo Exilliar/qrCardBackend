@@ -16,7 +16,7 @@ def card(request, accountid):
     if request.method == 'GET':
         return getCards(accountid)
     else:
-        return HttpResponse(status=405)
+        return HttpResponse("Only GET allowed", status=405)
 
 
 def getCards(accountid):
@@ -44,30 +44,16 @@ def getCards(accountid):
         return HttpResponse("account not found")
 
 
-def account(request):
+def getAccountId(request, accountEmail):
     if request.method == 'GET':
-        return accountGet(request)
-    elif request.method == 'POST':
-        accountPost(request)
-        return HttpResponse("POST")
-    elif request.method == 'PATCH':
-        accountPatch(request)
-        return HttpResponse("PATCH")
-
-    return HttpResponse("did not detect request method")
-
-
-def accountGet(request):
-    try:
-        accountData = Account.objects.get(email="test@test.com")
-        return HttpResponse(accountData)
-    except:
-        return HttpResponse("could not find account")
-
-
-def accountPost(request):
-    pass
-
-
-def accountPatch(request):
-    pass
+        try:
+            account = Account.objects.get(email=accountEmail)
+            return JsonResponse({'id': account.pk}, safe=False)
+        except Account.DoesNotExist:
+            newAccount = Account(email=accountEmail)
+            newAccount.save()
+            return JsonResponse({'id': newAccount.pk}, safe=False)
+        except:
+            return HttpResponse("error getting account", status=500)
+    else:
+        return HttpResponse(status=405)
