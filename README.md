@@ -2,6 +2,23 @@
 
 Django app for the backend of the qr-cards webapp
 
+## endpoints
+
+`/qrCards/account/<string:email>`
+
+- GET
+- get the account id (or maybe some auth sometime in the future) when given an email. If the email has not already been logged then a new account will be created in the db and the new accountid will be returned
+
+`/qrCards/account/<int:accountid>/card`
+
+- GET
+- get all accounts cards
+
+`/qrCards/account/<int:accountid>/card/<int:cardid>`
+
+- PATCH
+- add a card to the account
+
 ## Django stuff
 
 ## Running
