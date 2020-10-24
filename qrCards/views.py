@@ -11,37 +11,34 @@ def index(request):
     return HttpResponse("qrCards working")
 
 
-@csrf_exempt
-def card(request, accountid):
+def getCards(request, accountid):
     if request.method == 'GET':
-        return getCards(accountid)
+        try:
+            account = Account.objects.get(pk=accountid)
+            cards = list(account.cards.all())
+            data = []
+            for card in cards:
+                stats = list(card.cardStats.all())
+                cardObj = {
+                    'title': card.title,
+                    'imgurl': card.imgurl,
+                    'cardStats': []
+                }
+                for stat in stats:
+                    statObj = {
+                        'value': stat.value,
+                        'name': stat.stat.name
+                    }
+                    cardObj['cardStats'].append(statObj)
+                data.append(cardObj)
+
+            return JsonResponse(data, safe=False)
+        except Account.DoesNotExist:
+            return HttpResponse("Account not found", status=400)
+        except:
+            return HttpResponse("Error in getCards", status=500)
     else:
         return HttpResponse("Only GET allowed", status=405)
-
-
-def getCards(accountid):
-    try:
-        account = Account.objects.get(pk=accountid)
-        cards = list(account.cards.all())
-        data = []
-        for card in cards:
-            stats = list(card.cardStats.all())
-            cardObj = {
-                'title': card.title,
-                'imgurl': card.imgurl,
-                'cardStats': []
-            }
-            for stat in stats:
-                statObj = {
-                    'value': stat.value,
-                    'name': stat.stat.name
-                }
-                cardObj['cardStats'].append(statObj)
-            data.append(cardObj)
-
-        return JsonResponse(data, safe=False)
-    except:
-        return HttpResponse("account not found")
 
 
 def getAccountId(request, accountEmail):
