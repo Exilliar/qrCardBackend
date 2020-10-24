@@ -4,13 +4,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import Stat, CardStats, Card, Account
 
-# Create your views here.
-
 
 def index(request):
     return HttpResponse("qrCards working")
 
 
+@csrf_exempt
 def getCards(request, accountid):
     if request.method == 'GET':
         try:
@@ -41,6 +40,7 @@ def getCards(request, accountid):
         return HttpResponse("Only GET allowed", status=405)
 
 
+@csrf_exempt
 def getAccountId(request, accountEmail):
     if request.method == 'GET':
         try:

@@ -17,6 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('qrCards/', include('qrCards.urls')),
+    path('', include('qrCards.urls')),
     path('admin/', admin.site.urls),
 ]
