@@ -14,11 +14,6 @@ Django app for the backend of the qr-cards webapp
 - GET
 - get all accounts cards
 
-`/qrCards/card`
-
-- POST
-- add a new card to the db
-
 `/qrCards/account/<int:accountid>/card/<int:cardid>`
 
 - PATCH
