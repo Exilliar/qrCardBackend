@@ -56,4 +56,22 @@ def getAccountId(request, accountEmail):
         except:
             return HttpResponse("error getting account", status=500)
     else:
-        return HttpResponse(status=405)
+        return HttpResponse("Only GET allowed", status=405)
+
+
+@csrf_exempt
+def addCardToAccount(request, accountid, cardid):
+    if request.method == 'PATCH':
+        try:
+            account = Account.objects.get(pk=accountid)
+            card = Card.objects.get(pk=cardid)
+            account.cards.add(card)
+            return HttpResponse("Added card")
+        except Account.DoesNotExist:
+            return HttpResponse("Account does not exist", status=400)
+        except Card.DoesNotExist:
+            return HttpResponse("Card does not exist", status=400)
+        except:
+            return HttpResponse("Error in addCardToAccount", status=500)
+    else:
+        return HttpResponse("Only PATCH allowed", status=405)
