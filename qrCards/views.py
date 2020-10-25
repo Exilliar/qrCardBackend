@@ -19,16 +19,18 @@ def getCards(request, accountid):
             for card in cards:
                 stats = list(card.cardStats.all())
                 cardObj = {
+                    'id': card.pk,
                     'title': card.title,
                     'imgurl': card.imgurl,
-                    'cardStats': []
+                    'stats': []
                 }
                 for stat in stats:
                     statObj = {
+                        'id': stat.pk,
                         'value': stat.value,
                         'name': stat.stat.name
                     }
-                    cardObj['cardStats'].append(statObj)
+                    cardObj['stats'].append(statObj)
                 data.append(cardObj)
 
             return JsonResponse(data, safe=False)
