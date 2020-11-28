@@ -24,6 +24,7 @@ class Card(models.Model):
 
 
 class Account(models.Model):
+    # this is actually going to be a username, but I'm too lazy to change the name
     email = models.EmailField()
     cards = models.ManyToManyField(Card)
 
